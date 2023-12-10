@@ -4,7 +4,7 @@ SCRIPT_NAME = ip_latlong.py
 
 
 reqs:
-	pipreqs .
+	pipreqs --force .
 
 setup: requirements.txt
 	pip install -r requirements.txt
