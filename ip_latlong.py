@@ -51,7 +51,7 @@ REQUESTS_BLOCKSIZE = 64
 ## start receiving more (or less) data.
 MAX_RESPONSE_OCTETS = 256
 ## Default log level to display on console.
-LOGGING_LEVEL=logging.WARNING
+LOGGING_LEVEL = logging.WARNING
 
 # Do some checks on the operating system. Right now, we don't seem to do
 # anything special for either MacOS or Linux, but this is here in case there
