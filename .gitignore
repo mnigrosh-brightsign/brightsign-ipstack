@@ -1,3 +1,13 @@
+# There should be a sample environment file in git, but the real one
+# should not get placed in the repo.
+.env
+
+# Don't include generated documentation
+doc/
+
+##         --end mnigrosh additions--          ##
+## what follows is GitHub's default for Python ##
+
 # Byte-compiled / optimized / DLL files
 __pycache__/
 *.py[cod]
