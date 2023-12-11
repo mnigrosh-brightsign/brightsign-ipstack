@@ -9,7 +9,7 @@ python3 ip_latlong.py <ip>
 ```
 where `<ip>` is the IP address to query.
 A successful execution of this program will result in the output of the
-latitude and longitude coordinated for the IP address, and an exit code of 0.
+latitude and longitude coordinates for the IP address, and an exit code of 0.
 All other exit codes indicate failure.
 
 However, if invoking the script this way, the user must supply an IPStack API
@@ -23,17 +23,21 @@ or, for those who may not use `bash` as their default shell,
 ```
 setenv API_KEY <API key>
 ```
-where `<API key>` is the user's API key, that may look like
-`ef58ffee79f24819903092265793d0d4` (this is not a known IPStack API key).
+where `<API key>` is the user's API key. For example, an IPStack API key may
+look like `ef58ffee79f24819903092265793d0d4` (this is not a known IPStack API
+key).
 
 ## Running in `docker`
 This program is also provided as a docker image which can be found at
 [ip_latlong-docker_image.tar.gz](ip_latlong-docker_image.tar.gz).
 It is assumed that the user has a working docker installation. For more
 information about installing docker see [Install Docker Engine](https://docs.docker.com/engine/install/) and, possibly [Manage Docker as a non-root user](https://docs.docker.com/engine/install/linux-postinstall/#manage-docker-as-a-non-root-user).
-In order to run the program through docker, one can do the following:
+In order to run the program through docker, one can load it with:
 ```
 docker load < ip_latlong-docker_image.tar.gz
+```
+and then subsequently run it each time with:
+```
 docker run ip_latlong <test_ip>
 ```
 where `<test_ip>` is the IP address to query.
@@ -53,7 +57,7 @@ does not, as they are too similar to dotted-quads. IPStack *does* seem to
 accept FQDNs as input, but, as this project specifically states "IP addresses",
 those shall not be considered valid inputs.
 - The latitude and longitude shall be output in a coordinate format at the
-command line, such as `(<latitude>, <longitude>)`.  All latitude and longitude
+command line, as `(<latitude>, <longitude>)`.  All latitude and longitude
 values shall be rounded to four (4) decimal places.  This is intended to meet
 the "some useful way" requirement.
 - This software shall run on Linux and MacOS, but its behaviour is unspecified
@@ -71,7 +75,7 @@ A sample environment file used for building docker images.
 </br>
 
 .flake8:
-Lint configuration for Flake8 Pythone linter.
+Lint configuration for Flake8 Python linter.
 </br>
 
 Dockerfile:
@@ -118,14 +122,17 @@ could be compromised and would allow a malicious actor to impersonate the
 account holder.
 Because of that, the API key is not included in this git repository, and effort
 has been made to conceal it from a docker user. The API key is only provided
-to docker at build time, and, even so, is only done by parsing a file.
+to docker at build time, and, even so, is only done by parsing a file present
+only in the builder's filesystem.
+Since this software uses docker, if a swarm were to be available, we could
+pivot to docker secrets in the future.
 
 Of course, since the free tier is only allowed to use HTTP as a scheme, one
 could easily sniff the traffic in order to discover the API key being used.
 
 ### Spoofing IPStack
 There are a number of different threat vectors arriving from a cybercrook
-spoofing IPStack. Since this projects limits us to the free tier of IPStack,
+spoofing IPStack. Since this project limits us to the free tier of IPStack,
 and since IPStack does not make HTTPS requests available to free accounts,
 we lose some of the inherent safety of secure requests.
 Were we able to use HTTPS, we could validate the TLS certificates of the
@@ -159,7 +166,7 @@ no one else can contribute to it, but that does not protect against all attacks.
 ## Optimizations and Future Modifications
 ### File Storage
 This project does not use git-LFS, though an export of the docker image file is
-stored in the git repo. This is because installing git-LFS has been known
+stored in the git repo. This is because installing git-LFS has been known to be
 troublesome for some systems and may result in incompatible `pull` and `push`
 operations. If this were to become production code, we could use git-LFS, but
 it may make more sense not to store the docker image in git in the first place.
@@ -167,22 +174,28 @@ We could use Artifactory, or Google Drive, or something similar.
 ### Usage Tracking and Rate Limiting
 Free IPStack accounts only get 1000 lookups per month, and we have made the
 assumption that that is good enough for this project. A possible addition would
-be to add a tool that tracks how many requests remain for the current month.
+be to add a tool that tracks how many requests remain for the current month. We
+could also add rate-limiting or some hysteresis if the frequency of requests
+seems to be getting too high.
+
 ### Global Variables
 This code includes a number of global variables, such as `QUERY_FIELDS`,
 `REQUEST_TIMEOUT` and `DEFAULT_LAT_LONG_PRECISION`. These are listed as
 global constants so that they can be easily manipulated without delving into
 the code. They could, however, be placed in an environment file and altered
 without any need to open the Python file.
+
 ### Retries and Persistence
 As written, this program does not make particularly vigorous effort to contact
 the IPStack servers. We could add a Session object that could support
 retries, backoff factors, and even pool connections.
+
 ### Logging and Output
 This program only prints to stdout when there is a successful match for an
 IP address. It uses logging in a very basic manner--largely to separate messages
 going to stderr from those intended to go to stdout. It could be modified to
 log messages to a file, or to syslog, or it could expose them over the network.
+
 ### Testing
 Testing for this program was done via manual input using a copy-paste bank
 in the [test_input_word_bank](test_input_word_bank) file. We could have used
