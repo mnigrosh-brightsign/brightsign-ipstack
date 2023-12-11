@@ -1,0 +1,20 @@
+# This file is provided for copy-paste testing purposes and has some sample
+# inputs that were used during the development of this code.
+# These were all used as "IP address" in the command line.
+1.1.1.1
+0x09090909
+0011.0011.0011.0011
+2001:4860:4860::8888
+2001:4860:4860:0:0:0:0:8844
+128.2.1.10
+2147614986
+2001:0db8:85a3:0000:0000:8a2e:0370:7334
+10.96.1.1
+www.cnn.com
+::
+potato
+...
+8.8.8.8
+2606:4700:4700::6400
+111.111.222.333
+00000:1111:2222:3333:4444:5555:6666:7777
