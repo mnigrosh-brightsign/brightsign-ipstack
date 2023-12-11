@@ -38,6 +38,12 @@ docker run ip_latlong <test_ip>
 ```
 where `<test_ip>` is the IP address to query.
 
+## Documentation
+This code uses `doxygen` for documentation. The generated files are not
+included in this repo, as they are many and large and not everyone wishes to
+read them. One can clone this repo and run `make doc` in order to generate LaTeX
+and HTML documentation. This requires having `doxygen` installed.
+
 ## Assumptions and Invariants
 - There shall only be a single parameter passed on the command line.
 - The IP address shall be in dotted-quad format or in colon-separated format.
